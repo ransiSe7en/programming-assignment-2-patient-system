@@ -1,0 +1,19 @@
+# Visual Studio
+.vs/
+out/
+build/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Executables
+*.exe
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+
+# Logs
+*.log
