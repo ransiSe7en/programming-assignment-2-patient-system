@@ -12,16 +12,24 @@
 #include "HospitalAlertSystemFacade.h"
 
 #include "PatientFileLoaderAdapter.h"
+#include "CompositePatientLoader.h"
 
 using namespace std;
 
 
 PatientManagementSystem::PatientManagementSystem() :
-	_patientDatabaseLoader(std::make_unique<PatientFileLoaderAdapter>("patients.txt")),
+	//_patientDatabaseLoader(std::make_unique<PatientFileLoaderAdapter>("patients.txt")),
 	_hospitalAlertSystem(std::make_unique<HospitalAlertSystemFacade>()),
 	_gpNotificationSystem(std::make_unique<GPNotificationSystemFacade>())
 {
+	auto compositeLoader = std::make_unique<CompositePatientLoader>();
+
+	compositeLoader->addLoader(std::make_unique<PatientDatabaseLoader>());
+	compositeLoader->addLoader(std::make_unique<PatientFileLoaderAdapter>("patients.txt"));
+
+	_patientDatabaseLoader = std::move(compositeLoader);
 	_patientDatabaseLoader->initialiseConnection();
+
 }
 
 PatientManagementSystem::~PatientManagementSystem()
@@ -42,7 +50,7 @@ void PatientManagementSystem::init()
 	}
 
 	for (Patient* p : _patients) {
-		// TODO: do any processing you need here
+		// Todo
 	}
 }
 
