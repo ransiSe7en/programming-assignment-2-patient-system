@@ -2,6 +2,12 @@
 .vs/
 out/
 build/
+x64/
+Debug/
+Release/
+*.obj
+*.pdb
+*.ilk
 
 # OS junk
 .DS_Store
