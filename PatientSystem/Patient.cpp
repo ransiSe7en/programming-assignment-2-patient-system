@@ -5,7 +5,11 @@
 #include <sstream>
 
 #include "Vitals.h"
+#include "AndromedaAlertLevelStrategy.h"
+#include "CordycepsAlertLevelStrategy.h"
+#include "KepralsAlertLevelStrategy.h"
 
+#include "AlertLevelStrategy.h"
 
 using namespace std;
 
@@ -66,10 +70,32 @@ const std::string& Patient::primaryDiagnosis() const
 	return _diagnosis.front();
 }
 
-void Patient::addVitals(const Vitals* v)
+void Patient::addVitals(const Vitals* v, bool calculateAlert)
 {
 	_vitals.push_back(v);
-	// TODO: calculate alert levels
+	
+	if (calculateAlert) {
+		calculateAlertLevel(*v);
+	}
+}
+
+void Patient::calculateAlertLevel(const Vitals& vitals)
+{
+	std::unique_ptr<AlertLevelStrategy> strategy;
+
+	if (primaryDiagnosis() == Diagnosis::CORDYCEPS_BRAIN_INFECTION) {
+		strategy = std::make_unique<CordycepsAlertLevelStrategy>();
+	}
+	else if (primaryDiagnosis() == Diagnosis::KEPRALS_SYNDROME) {
+		strategy = std::make_unique<KepralsAlertLevelStrategy>();
+	}
+	else if (primaryDiagnosis() == Diagnosis::ANDROMEDA_STRAIN) {
+		strategy = std::make_unique<AndromedaAlertLevelStrategy>();
+	}
+
+	if (strategy) {
+		setAlertLevel(strategy->calculateAlertLevel(*this, vitals));
+	}
 }
 
 const std::vector<const Vitals*> Patient::vitals() const

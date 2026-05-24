@@ -82,7 +82,7 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
                         respitoryRate
                     );
 
-                    patient->addVitals(vitals);
+                    patient->addVitals(vitals, false);
                 }
             }
 
