@@ -106,7 +106,7 @@ void Patient::calculateAlertLevel(const Vitals& vitals)
 	}
 }
 
-const std::vector<const Vitals*> Patient::vitals() const
+const std::vector<const Vitals*>& Patient::vitals() const
 {
 	return _vitals;
 }
