@@ -100,7 +100,7 @@ void PatientManagementSystem::addVitalsRecord()
 		float bodyTemperature;
 		int bloodPressure;
 		int heartRate;
-		int respitoryRate;
+		int respiratoryRate;
 
 		cout << "enter body temperature: ";
 		cin >> bodyTemperature;
@@ -108,10 +108,10 @@ void PatientManagementSystem::addVitalsRecord()
 		cin >> bloodPressure;
 		cout << "enter heart rate: ";
 		cin >> heartRate;
-		cout << "enter respitory rate: ";
-		cin >> respitoryRate;
+		cout << "enter respiratory rate: ";
+		cin >> respiratoryRate;
 
-		Vitals* v = new Vitals(bodyTemperature, bloodPressure, heartRate, respitoryRate);
+		Vitals* v = new Vitals(bodyTemperature, bloodPressure, heartRate, respiratoryRate);
 		_patientLookup[pid]->addVitals(v);
 	}
 	else {
