@@ -10,6 +10,7 @@
 #include "KepralsAlertLevelStrategy.h"
 
 #include "AlertLevelStrategy.h"
+#include "PatientAlertObserver.h"
 
 using namespace std;
 
@@ -103,6 +104,18 @@ const std::vector<const Vitals*> Patient::vitals() const
 	return _vitals;
 }
 
+void Patient::addAlertObserver(PatientAlertObserver* observer)
+{
+	_alertObservers.push_back(observer);
+}
+
+void Patient::notifyAlertObservers()
+{
+	for (PatientAlertObserver* observer : _alertObservers) {
+		observer->notify(this);
+	}
+}
+
 void Patient::setAlertLevel(AlertLevel level)
 {
 	_alertLevel = level;
@@ -121,5 +134,8 @@ void Patient::setAlertLevel(AlertLevel level)
 			break;
 		}
 		cout << endl;
+	}
+	if (_alertLevel == AlertLevel::Red) {
+		notifyAlertObservers();
 	}
 }

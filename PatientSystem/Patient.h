@@ -9,6 +9,7 @@
 
 // forward declare classes
 class Vitals;
+class PatientAlertObserver;
 
 class Diagnosis {
 public:
@@ -47,10 +48,13 @@ public:
 	void setAlertLevel(AlertLevel level);
 	const AlertLevel alertLevel() const { return _alertLevel; }
 	void calculateAlertLevel(const Vitals& vitals);
+	void addAlertObserver(PatientAlertObserver* observer);
+	void notifyAlertObservers();
 
 protected:
 	std::vector<std::string> _diagnosis;
 	std::vector<const Vitals*> _vitals;
+	std::vector<PatientAlertObserver*> _alertObservers;
 	AlertLevel _alertLevel;
 
 	friend std::ostream& operator<<(std::ostream& os, const Patient& p);

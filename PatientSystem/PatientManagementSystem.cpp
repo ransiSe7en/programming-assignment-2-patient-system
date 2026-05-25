@@ -8,8 +8,8 @@
 #include "PatientDatabaseLoader.h"
 #include "Vitals.h"
 
-#include "GPNotificationSystemFacade.h"
-#include "HospitalAlertSystemFacade.h"
+#include "HospitalAlertObserver.h"
+#include "GPAlertObserver.h"
 
 #include "PatientFileLoaderAdapter.h"
 #include "CompositePatientLoader.h"
@@ -19,8 +19,8 @@ using namespace std;
 
 PatientManagementSystem::PatientManagementSystem() :
 	//_patientDatabaseLoader(std::make_unique<PatientFileLoaderAdapter>("patients.txt")),
-	_hospitalAlertSystem(std::make_unique<HospitalAlertSystemFacade>()),
-	_gpNotificationSystem(std::make_unique<GPNotificationSystemFacade>())
+	_hospitalAlertObserver(std::make_unique<HospitalAlertObserver>()),
+	_gpAlertObserver(std::make_unique<GPAlertObserver>())
 {
 	auto compositeLoader = std::make_unique<CompositePatientLoader>();
 
@@ -50,7 +50,8 @@ void PatientManagementSystem::init()
 	}
 
 	for (Patient* p : _patients) {
-		// Todo
+		p->addAlertObserver(_hospitalAlertObserver.get());
+		p->addAlertObserver(_gpAlertObserver.get());
 	}
 }
 

@@ -11,7 +11,8 @@ class AbstractPatientDatabaseLoader;
 class HospitalAlertSystemFacade;
 class GPNotificationSystemFacade;
 class Patient;
-
+class HospitalAlertObserver;
+class GPAlertObserver;
 
 class PatientManagementSystem
 {
@@ -35,8 +36,8 @@ protected:
 	std::vector<Patient*> _patients;
 	std::map<std::string, Patient*> _patientLookup;
 
-	std::unique_ptr<HospitalAlertSystemFacade> _hospitalAlertSystem;
-	std::unique_ptr<GPNotificationSystemFacade> _gpNotificationSystem;
+	std::unique_ptr<HospitalAlertObserver> _hospitalAlertObserver;
+	std::unique_ptr<GPAlertObserver> _gpAlertObserver;
 
 	std::unique_ptr<AbstractPatientDatabaseLoader> _patientDatabaseLoader;
 
